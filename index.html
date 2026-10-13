@@ -158,9 +158,9 @@ const STEPS=[
  {phase:'Origin · Orchard',title:'Picking',text:'Pickers harvest the fruit by hand into picking bags and empty them into wooden field bins between the rows.',gfs:'GFS plans volumes with the grower: what is ripe, how much, and in which week it must ship.',facts:['Hand-picked','Field bins'],at:[-148,0,-46],d:70,pin:'Orchard'},
  {phase:'Origin · Bin cold room',title:'Bins into the cold room',text:'A tractor brings the full bins from the orchard. A forklift stacks them in the bin cold room, where the fruit loses its field heat.',facts:['Field heat out','Bin forklift'],at:[-100,0,-46],d:46,open:['bins'],pin:'Bin cold room'},
  {phase:'Origin · Packhouse',title:'Washing, grading and packing',text:'Bins are tipped onto the line. The fruit is washed, brushed, dried and graded by size and quality, then packed into cartons and built into pallets.',facts:['Wash','Grade','Pack','Palletise'],at:[-62,0,-46],d:62,open:['pack'],pin:'Packhouse'},
- {phase:'Origin · Pallet cold store',title:'Stored at +4 °C',text:'Finished pallets are labelled and moved by forklift into the pallet cold store. They wait in the racks at about +4 °C until the truck arrives.',facts:['+4 °C','Pallet racks'],at:[-28,0,-46],d:48,open:['cold'],pin:'Cold store'},
+ {phase:'Origin · Pallet cold store',title:'Stored at the right temperature',text:'Each product waits in its own cold zone until the truck arrives: table grapes, apples and pears around −0.5 °C, oranges about +4.5 °C, avocados about +5.5 °C and lemons about +8 °C. Forklifts move the labelled pallets into the racks.',facts:['Grapes −0.5 °C','Apples −0.5 °C','Oranges +4.5 °C','Avocados +5.5 °C','Lemons +8 °C'],at:[-28,0,-46],d:48,open:['cold'],pin:'Cold store'},
  {phase:'GFS Marketing · Operations',title:'Planning, booking and documents',text:'Behind every step sits the GFS Marketing operations team. They plan volumes with the growers, book vessel space, order the empty reefer, allocate the transporter, prepare the export documents and track each container until the client signs for it.',facts:['Vessel booking','Empty release','Transport','Documents','Tracking'],at:[-4,0,27],d:56,open:['gfs'],pin:'GFS Marketing'},
- {phase:'Empty depot',title:'Empty container prepared',text:"At the shipping line's depot the empty reefer is washed and inspected inside and out. The cooling unit passes its pre-trip inspection (PTI) and is set to the temperature on the booking, here +4.0 °C.",facts:['Wash','Inspection','PTI passed','Set point +4.0 °C'],at:[60,0,-42],d:66,pin:'Empty depot'},
+ {phase:'Empty depot',title:'Empty container prepared',text:"At the shipping line's depot the empty reefer is washed and inspected inside and out. The cooling unit passes its pre-trip inspection (PTI) and is set to the temperature booked for its product, for example −0.5 °C for table grapes or +8 °C for lemons.",facts:['Wash','Inspection','PTI passed','Set point per product'],at:[60,0,-42],d:66,pin:'Empty depot'},
  {phase:'Transport',title:'The truck is dispatched',text:"The transporter's planner sends a truck from the yard to collect the released empty and drive to the allocated farm.",gfs:'GFS allocates the transporter and tells the driver which container and which farm.',at:[12,0,-48],d:50,open:['yard'],pin:'Transport yard'},
  {phase:'Origin · Loading dock',title:'Loading the back of the truck',text:'The reefer backs onto the cold store dock. A forklift loads the fruit pallets into the container, a temperature recorder goes in with the load, and the doors are closed and sealed.',facts:['Fruit pallets','Temperature recorder','Seal'],at:[-28,0,-30],d:38,dir:[.9,1.05,.75],open:['cold'],pin:'Loading dock'},
  {phase:'On the road',title:'Transport to the port',text:'The loaded reefer leaves the farm road and drives through the city to the port, with the unit running at its set point.',at:'truck',d:120,dir:[.45,1.7,.9],pin:'To the port'},
@@ -360,8 +360,9 @@ loop(12,(u,t)=>{for(let i=0;i<FN;i++){const k=((t*.05+i/FN)%1),x=-77+k*32;let y=
  growPallet.scale.y=.25+u*.75;});
 
 /* ---- 4 pallet cold store, with the loading dock on its south side ---- */
-building('cold',{x:-28,z:-46,w:24,d:16,h:8,sign:'Cold store',sub:'+4 °C',accent:0x2e86c1,doorsS:[[0,4.5]],doorsE:[[0,4]],units:3,roof:0xeef1f3});
+building('cold',{x:-28,z:-46,w:24,d:16,h:8,sign:'Cold store',sub:'Product cold zones',accent:0x2e86c1,doorsS:[[0,4.5]],doorsE:[[0,4]],units:3,roof:0xeef1f3});
 for(let r=0;r<2;r++){const z=-52+r*3.2;for(let b=0;b<4;b++){const x=-37+b*3;[0,2.2,4.4].forEach(y=>{box(scene,.15,y?2.2:0,.15,0x2e86c1,x-1.4,y,z);});box(scene,2.9,.12,1.3,0xf2994a,x,2.2,z);box(scene,2.9,.12,1.3,0xf2994a,x,4.4,z);for(let lv=0;lv<3;lv++)pallet(scene,x-.7,z,lv*2.2+.12),pallet(scene,x+.7,z,lv*2.2+.12);}}
+[['Grapes','−0.5 °C',-37],['Apples & pears','−0.5 °C',-33],['Oranges','+4.5 °C',-29],['Lemons','+8.0 °C',-25]].forEach(([a,b,x])=>sign(scene,a,b,3.6,x,6.3,-53.45,0,'#0f1a16'));
 // dock: truck reversed onto the dock, open (cut-away) container so the pallets show
 box(scene,8,1.3,3,0x8d8a82,-28,0,-37.2);
 const dockTruck=truck(scene,0x3dbb74);dockTruck.g.position.set(-28,0,-27.5);dockTruck.g.rotation.y=-Math.PI/2;
@@ -392,7 +393,7 @@ for(let r=0;r<4;r++)for(let c=0;c<3;c++)for(let t=0;t<1+((r+c)%3);t++)container(
 const washC=container(scene,0xf4f6f6,true,64,0,-36,0);
 box(scene,.4,6,.4,0x6b7378,57.5,0,-38);box(scene,.4,6,.4,0x6b7378,70.5,0,-38);box(scene,13.4,.4,.4,0x6b7378,64,6,-38);box(scene,.4,6,.4,0x6b7378,57.5,0,-34);box(scene,.4,6,.4,0x6b7378,70.5,0,-34);box(scene,13.4,.4,.4,0x6b7378,64,6,-34);
 const SPN=60,sprayI=new THREE.InstancedMesh(new THREE.SphereGeometry(.12,5,4),new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:.75}),SPN);scene.add(sprayI);
-const tech=person(scene,0x2e86c1,71.5,-35,Math.PI);board('REEFER PRE-TRIP CHECK',[['Wash & interior inspection','Passed'],['Pre-trip inspection (PTI)','PASS'],['Set point','+4.0 °C'],['Released for','GFS booking']],7,56,4.6,-31,.6,true);box(scene,.8,.08,.5,0x1d2b26,71.2,1.3,-35.5);
+const tech=person(scene,0x2e86c1,71.5,-35,Math.PI);board('PTI & SET POINTS',[['Table grapes · −0.5 °C','PTI PASS'],['Apples · −0.5 °C','PTI PASS'],['Oranges · +4.5 °C','PTI PASS'],['Avocados · +5.5 °C','PTI PASS'],['Lemons · +8.0 °C','PTI PASS']],7,56,4.6,-31,.6,true);box(scene,.8,.08,.5,0x1d2b26,71.2,1.3,-35.5);
 const lifter=topLifter(scene,0xd35400);
 const pickC=container(lifter.spr,0xf4f6f6,true,0,-2.6,0,Math.PI/2);
 const depTruck=truck(scene,0xe67e22);depTruck.g.rotation.y=-Math.PI/2;const depC=container(depTruck.mount,0xf4f6f6,true,0,0,0);
@@ -460,7 +461,7 @@ loop(18,u=>{const tx=u<.25?132+ease(u/.25)*11:u<.7?143:143+ease(seg(u,.7,1))*28;
  placed.visible=u>=.66;});
 const placed=container(scene,0xf4f6f6,true,143,0,-12,0);
 const plugCable=box(scene,.14,.14,2.2,0x1d2124,149.4,1.3,-13.1);const plugLight=new THREE.Mesh(BOX,new THREE.MeshStandardMaterial({color:0x58d68d,emissive:0x2ecc71,emissiveIntensity:1}));plugLight.scale.set(.5,.4,.5);plugLight.position.set(149.5,3,-14);scene.add(plugLight);
-board('REEFER MONITORING',[['Power','Connected'],['Set point','+4.0 °C'],['Supply air','+4.1 °C'],['Alarms','None']],8,134.5,4.8,-8,-.75,true);
+board('REEFER MONITORING',[['Grapes · set −0.5 °C','−0.4 °C ✓'],['Oranges · set +4.5 °C','+4.6 °C ✓'],['Avocados · set +5.5 °C','+5.4 °C ✓'],['Lemons · set +8.0 °C','+8.1 °C ✓'],['Power · alarms','Connected · None']],10.5,133.5,5.6,-8,-.75,true);
 anims.push(()=>{plugCable.visible=placed.visible;plugLight.material.emissiveIntensity=placed.visible?1:0;plugLight.material.color.setHex(placed.visible?0x58d68d:0x7f8c8d);});
 
 /* ---- 11 quay: vessel alongside, quay cranes ---- */
@@ -518,7 +519,7 @@ loop(24,(u,t)=>{const x=u<.2?Q+30+ease(u/.2)*24:u<.45?Q+54+seg(u,.2,.45)*16:u<.6
  scanBar.position.x=Q+62;scanBar.visible=u>.2&&u<.45&&Math.sin(t*14)>-.6;insp[0].rotation.y=Math.sin(t)*.8;});
 
 /* ---- 15 client warehouse cold room ---- */
-building('wh',{x:Q+112,z:-30,w:38,d:22,h:9,sign:'Client warehouse',sub:'Cold room +2 °C',accent:0xd68910,doorsS:[[0,5]],doorsE:[[0,5]],units:3});
+building('wh',{x:Q+112,z:-30,w:38,d:22,h:9,sign:'Client warehouse',sub:'Cold rooms by product',accent:0xd68910,doorsS:[[0,5]],doorsE:[[0,5]],units:3});
 const whRack=[];for(let r=0;r<3;r++){const z=-38+r*4;for(let b=0;b<6;b++){const x=Q+97+b*3.6;[2.4,4.8].forEach(y=>box(scene,3.4,.12,1.3,0xf2994a,x,y,z));box(scene,.15,5,.15,0x2e86c1,x-1.7,0,z);for(let lv=0;lv<3;lv++){const pl=pallet(scene,x,z,lv*2.4+.12);pl.visible=false;whRack.push(pl);}}}
 box(scene,8,1.3,3,0x8d8a82,Q+112,0,-17.2);
 const whTruck=truck(scene,0x8e44ad);whTruck.g.position.set(Q+112,0,-7.5);whTruck.g.rotation.y=-Math.PI/2;
@@ -526,7 +527,7 @@ const wc=grp(whTruck.mount,0,0);box(wc,12,.3,2.45,0,0,0,0,ocm);box(wc,12,2.6,.12
 const whIn=[];for(let i=0;i<20;i++)whIn.push(pallet(wc,-5.2+Math.floor(i/2)*1.2,(i%2?.6:-.6),.3));
 {const qc=grp(scene,Q+104,-15.5);box(qc,2.2,.85,1.1,0xe9e3d6,0,0,0);box(qc,.9,.45,.6,0xe0b87a,-.4,.85,0);for(let i=0;i<6;i++)sph(qc,.13,0xf2992e,-.65+(i%3)*.25,1.35,-.12+Math.floor(i/3)*.24);cyl(qc,.03,.6,0x8a9498,.5,.85,0);}
 person(scene,0xf4f6f6,Q+104,-13.8,0);person(scene,0x2f5f9e,Q+106.2,-13.6,0);
-board('ARRIVAL QC',[['Seal number','Matches'],['Pulp temperature','+4.2 °C'],['Fruit quality','Accepted'],['Pallet count','Complete']],6.5,Q+99,4,-13.2,.35,true);
+board('ARRIVAL QC',[['Seal number','Matches'],['Product','Table grapes'],['Pulp temperature','−0.3 °C ✓'],['Fruit quality','Accepted'],['Pallet count','Complete']],6.5,Q+99,4,-13.2,.35,true);
 const whFork=forklift(scene,0x3dbb74);const whLoad=pallet(whFork.fork,.7,0,.1);
 loop(70,u=>{const n=Math.floor(u*22),k=(u*22)%1;whIn.forEach((p,i)=>p.visible=i>=Math.min(20,n));const shown=Math.min(20,n)+16;whRack.forEach((p,i)=>p.visible=i<shown);
  if(n>=20){whFork.g.position.set(Q+108,0,-30);whLoad.visible=false;return;}
@@ -539,7 +540,7 @@ for(let i=0;i<26;i++)tree(scene,Q+40+rnd()*140,70+rnd()*18,.9);
 /* ---- proof of delivery: client receiving office ---- */
 building('pod',{x:Q+142,z:-30,w:14,d:10,h:6,sign:'Client office',sub:'Receiving',accent:0xd68910,doorsS:[[-3,3]],units:2});
 box(scene,3,.85,1.3,0xe9e3d6,Q+143,0,-31);box(scene,1.1,.75,.08,0,Q+143,.95,-31.5,mat(0x1d2b26,{emissive:0x3dbb74,emissiveIntensity:.45}));person(scene,0xd68910,Q+143,-29.6,0);person(scene,0x8e44ad,Q+146,-29.4,Math.PI/2);
-board('PROOF OF DELIVERY',[['Delivered','Complete'],['Received at','+4.2 °C'],['Signed by','Client receiving'],['Shipment file','Closed by GFS']],8,Q+143,3.6,-34.1,0);
+board('PROOF OF DELIVERY',[['Delivered','Complete'],['Received at','−0.3 °C ✓'],['Signed by','Client receiving'],['Shipment file','Closed by GFS']],8,Q+143,3.6,-34.1,0);
 
 /* ---- 16 empty return depot ---- */
 pave(Q+138,Q+184,24,58,0xd3cec2);
