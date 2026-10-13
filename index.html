@@ -112,10 +112,12 @@ footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin
   <a class="logo" href="#" data-go="0"><i>GFS</i>nusome<span>GFS</span></a>
   <nav id="nav">
     <a href="#" data-go="1">Farm</a>
-    <a href="#" data-go="5">Transport</a>
-    <a href="#" data-go="9">Port</a>
-    <a href="#" data-go="12">Sea</a>
-    <a href="#" data-go="13">Destination</a>
+    <a href="#" data-go="5">GFS Marketing</a>
+    <a href="#" data-go="6">Transport</a>
+    <a href="#" data-go="10">Port</a>
+    <a href="#" data-go="14">Sea</a>
+    <a href="#" data-go="15">Destination</a>
+    <a href="#" data-go="20">Completion</a>
     <a href="#about" data-about>About</a>
   </nav>
   <div class="prog" id="prog"></div>
@@ -152,24 +154,29 @@ let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
    ========================================================= */
 const Q=380; // x of the destination quay
 const STEPS=[
- {hero:1,phase:'Fresh fruit logistics',title:'From the orchard to your cold room',text:'Scroll down to follow a pallet of fruit through every operation: from the tree, through the packhouse and the port, across the sea, to the customer. The map behind this page is live.',at:[60,0,0],d:470,dir:[.75,1.05,1.05]},
+ {hero:1,phase:'Fresh fruit logistics',title:'From the orchard to your cold room',text:'Scroll down to follow a pallet of fruit through every operation: from the tree, through the packhouse, GFS Marketing and the port, across the sea, to the customer. The map behind this page is live.',at:[60,0,0],d:470,dir:[.75,1.05,1.05]},
  {phase:'Origin · Orchard',title:'Picking',text:'Pickers harvest the fruit by hand into picking bags and empty them into wooden field bins between the rows.',gfs:'GFS plans volumes with the grower: what is ripe, how much, and in which week it must ship.',facts:['Hand-picked','Field bins'],at:[-148,0,-46],d:70,pin:'Orchard'},
  {phase:'Origin · Bin cold room',title:'Bins into the cold room',text:'A tractor brings the full bins from the orchard. A forklift stacks them in the bin cold room, where the fruit loses its field heat.',facts:['Field heat out','Bin forklift'],at:[-100,0,-46],d:46,open:['bins'],pin:'Bin cold room'},
  {phase:'Origin · Packhouse',title:'Washing, grading and packing',text:'Bins are tipped onto the line. The fruit is washed, brushed, dried and graded by size and quality, then packed into cartons and built into pallets.',facts:['Wash','Grade','Pack','Palletise'],at:[-62,0,-46],d:62,open:['pack'],pin:'Packhouse'},
- {phase:'Origin · Pallet cold store',title:'Stored at +4 °C',text:'Finished pallets are labelled and moved by forklift into the pallet cold store. They wait in the racks at about +4 °C until the truck arrives.',gfs:'GFS books space on a vessel and orders an empty reefer container from the shipping line.',facts:['+4 °C','Pallet racks'],at:[-28,0,-46],d:48,open:['cold'],pin:'Cold store'},
- {phase:'Empty depot',title:'The empty container is prepared',text:"At the shipping line's depot an empty refrigerated container is washed and its cooling unit tested (PTI). A top-lifter puts it on the truck.",facts:['Wash','PTI check','Release'],at:[52,0,-46],d:68,pin:'Empty depot'},
- {phase:'Transport',title:'The truck is dispatched',text:"A transport partner's planner sends a truck from the yard to collect the empty and drive to the allocated farm.",gfs:'GFS chooses the transporter and tells the driver which container and which farm.',at:[12,0,-48],d:50,open:['yard'],pin:'Transport yard'},
- {phase:'Origin · Loading dock',title:'Loading the back of the truck',text:'The truck reverses up to the cold store dock. A forklift drives the pallets into the back of the reefer until all 20 are in, then the doors are closed and sealed.',facts:['20 pallets','Seal','Temp. logger'],at:[-28,0,-30],d:38,dir:[.9,1.05,.75],open:['cold'],pin:'Loading dock'},
- {phase:'On the road',title:'Through the city',text:'The loaded reefer leaves the farm road and drives through the city towards the port, sharing the streets with local traffic.',at:'truck',d:120,dir:[.45,1.7,.9],pin:'City'},
- {phase:'Port · Weighbridge',title:'The truck is weighed',text:'Before the gate the truck stops on the weighbridge. Every export container needs a verified gross mass (VGM) before it may be loaded on a ship.',gfs:'GFS submits the VGM and the export documents.',facts:['VGM','Weighbridge ticket'],at:[112,0,10],d:40,pin:'Weighbridge'},
- {phase:'Port · Reefer stack',title:'Off-loaded into the stack',text:'Through the gate, a straddle carrier lifts the container off the truck and sets it down in the reefer stack, where it is plugged into power.',facts:['Gate-in','Straddle carrier','Reefer plug'],at:[147,0,-8],d:66,dir:[-.45,1.25,1],pin:'Reefer stack'},
- {phase:'Port · Quay',title:'Loaded on the vessel',text:'When the ship is alongside, the quay crane lifts each reefer from the terminal tractor into its slot on board, where it is plugged in again.',facts:['Quay crane','On-board power'],at:[176,16,14],d:125,dir:[-.8,.8,.95],pin:'Quay'},
- {phase:'At sea',title:'Crossing the sea',text:'The vessel sails for the destination port. That takes days to weeks, with the container held at its set temperature the whole way.',gfs:'GFS tracks every container at sea and keeps the customer informed.',at:'ship',d:230,dir:[.25,1.1,1],pin:'Sea'},
- {phase:'Destination · Quay',title:'The container is discharged',text:'At the destination port the quay crane lifts the container off the vessel and onto a truck, which takes it into the terminal.',facts:['Discharge','Terminal truck'],at:[Q-4,16,6],d:115,dir:[.85,.8,.95],pin:'Discharge'},
- {phase:'Destination · Customs',title:'Customs clearance',text:'The container drives slowly through the scanner. Some containers are opened and checked in the inspection shed before release.',gfs:'GFS sends the documents the customer needs to clear customs.',facts:['Scanner','Inspection'],at:[Q+64,0,24],d:56,open:['customs'],pin:'Customs'},
- {phase:'Destination · Warehouse',title:'Pallets into the cold room',text:"The client's truck backs up to the warehouse dock. A forklift unloads the pallets and moves them straight into the cold room racks.",facts:['Forklift','Cold room','Racks'],at:[Q+112,0,-28],d:58,open:['wh'],pin:'Client cold room'},
- {phase:'Destination · Empty depot',title:'The empty container is picked up',text:"The empty is collected from the warehouse and returned to the shipping line's depot, ready to be washed, tested and loaded again.",facts:['Empty return','Next load'],at:[Q+154,0,30],d:76,pin:'Empty return'},
- {end:1,phase:'The whole chain',title:'Orchard to cold room, end to end',text:'Picking, packing, storing, loading, weighing, shipping, discharging, clearing and delivering. Many companies each do one step. GFS connects them all.',at:[185,0,-10],d:980,dir:[.35,1.05,1.05]}
+ {phase:'Origin · Pallet cold store',title:'Stored at +4 °C',text:'Finished pallets are labelled and moved by forklift into the pallet cold store. They wait in the racks at about +4 °C until the truck arrives.',facts:['+4 °C','Pallet racks'],at:[-28,0,-46],d:48,open:['cold'],pin:'Cold store'},
+ {phase:'GFS Marketing · Operations',title:'Planning, booking and documents',text:'Behind every step sits the GFS Marketing operations team. They plan volumes with the growers, book vessel space, order the empty reefer, allocate the transporter, prepare the export documents and track each container until the client signs for it.',facts:['Vessel booking','Empty release','Transport','Documents','Tracking'],at:[-4,0,27],d:56,open:['gfs'],pin:'GFS Marketing'},
+ {phase:'Empty depot',title:'Empty container prepared',text:"At the shipping line's depot the empty reefer is washed and inspected inside and out. The cooling unit passes its pre-trip inspection (PTI) and is set to the temperature on the booking, here +4.0 °C.",facts:['Wash','Inspection','PTI passed','Set point +4.0 °C'],at:[60,0,-42],d:66,pin:'Empty depot'},
+ {phase:'Transport',title:'The truck is dispatched',text:"The transporter's planner sends a truck from the yard to collect the released empty and drive to the allocated farm.",gfs:'GFS allocates the transporter and tells the driver which container and which farm.',at:[12,0,-48],d:50,open:['yard'],pin:'Transport yard'},
+ {phase:'Origin · Loading dock',title:'Loading the back of the truck',text:'The reefer backs onto the cold store dock. A forklift loads the fruit pallets into the container, a temperature recorder goes in with the load, and the doors are closed and sealed.',facts:['Fruit pallets','Temperature recorder','Seal'],at:[-28,0,-30],d:38,dir:[.9,1.05,.75],open:['cold'],pin:'Loading dock'},
+ {phase:'On the road',title:'Transport to the port',text:'The loaded reefer leaves the farm road and drives through the city to the port, with the unit running at its set point.',at:'truck',d:120,dir:[.45,1.7,.9],pin:'To the port'},
+ {phase:'Port of loading · Weighbridge',title:'Verified Gross Mass (VGM)',text:'On the way into the port the loaded truck crosses the weighbridge. The verified gross mass of the container is recorded and sent to the shipping line; without it the container may not be loaded.',gfs:'GFS submits the VGM to the shipping line.',facts:['Weighbridge','VGM submitted'],at:[112,0,10],d:40,pin:'Weighbridge'},
+ {phase:'Port of loading · South Africa',title:'South African export clearance',text:'The export declaration is cleared by customs (SARS). PPECB inspects the fruit against export standards, and the phytosanitary certificate is issued for the destination market.',gfs:'GFS prepares and submits the export documents.',facts:['SARS customs','PPECB inspection','Phytosanitary certificate'],at:[114,0,-28],d:46,open:['export'],pin:'Export clearance'},
+ {phase:'Port of loading · Terminal',title:'Gate-in, stack and reefer power',text:'At the terminal gate the container is checked in. A straddle carrier lifts it off the truck into the reefer stack, where it is plugged into power and its temperature is monitored until loading.',facts:['Gate-in','Reefer power','Temperature monitoring'],at:[142,0,-6],d:74,dir:[-.45,1.25,1],pin:'Reefer stack'},
+ {phase:'Port of loading · Quay',title:'Loaded on the vessel',text:'When the ship is alongside, the quay crane lifts each reefer from the terminal tractor into its slot on board, where it is plugged in again.',facts:['Quay crane','On-board power'],at:[176,16,14],d:125,dir:[-.8,.8,.95],pin:'Quay'},
+ {phase:'At sea',title:'Crossing the sea',text:'The vessel sails for the destination port. That takes days to weeks, with the container held at its set temperature the whole way.',gfs:'GFS tracks every container at sea and keeps the client informed.',at:'ship',d:230,dir:[.25,1.1,1],pin:'Sea'},
+ {phase:'Destination operations',title:'Container discharged at destination port',text:'At the destination port the quay crane lifts the container off the vessel and onto a terminal truck, which takes it into the reefer stack.',facts:['Discharge','Reefer stack'],at:[Q-4,16,6],d:115,dir:[.85,.8,.95],pin:'Discharge'},
+ {phase:'Destination operations',title:'Import customs and phytosanitary clearance',text:"The import declaration is cleared by customs. Plant-health officials check the fruit and its phytosanitary certificate, scan the container and, when needed, open it in the inspection shed.",gfs:'GFS sends the documents the client needs for import clearance.',facts:['Import customs','Phytosanitary check','Scanner'],at:[Q+64,0,26],d:58,open:['customs'],pin:'Import clearance'},
+ {phase:'Destination operations',title:'Container released and delivered to client',text:"With customs and the port's release in hand, the container leaves the terminal through the release gate on the client's truck and drives to the client's warehouse.",facts:['Release order','Delivery'],at:[Q+90,0,10],d:66,pin:'Release gate'},
+ {phase:'Destination operations',title:'Unloading and quality inspection',text:'At the warehouse dock the seal number is checked, pulp temperatures are taken and sample cartons are opened to check the fruit before the pallets are accepted.',facts:['Seal check','Pulp temperature','Quality check'],at:[Q+106,0,-16],d:40,dir:[.6,1.2,1],open:['wh'],pin:'Arrival QC'},
+ {phase:'Destination operations',title:"Pallets placed into the client's cold room",text:'A forklift moves the accepted pallets straight into the cold room racks.',facts:['Forklift','Cold room','Racks'],at:[Q+112,0,-28],d:58,open:['wh'],pin:'Client cold room'},
+ {phase:'Completion',title:'Empty container returned to depot',text:"The empty is taken back to the shipping line's designated depot, ready to be washed, tested and loaded again.",facts:['Empty return','Designated depot'],at:[Q+154,0,30],d:76,pin:'Empty return'},
+ {phase:'Completion',title:'Shipment completed and proof of delivery recorded',text:'The client signs the proof of delivery. GFS Marketing records it and closes the shipment file.',facts:['Proof of delivery','File closed'],at:[Q+142,0,-30],d:38,open:['pod'],pin:'Proof of delivery'},
+ {end:1,phase:'The whole chain',title:'Orchard to cold room, end to end',text:'Picking, packing, storing, planning, loading, weighing, clearing, shipping, discharging, clearing, delivering and closing the file. Many companies each do one step. GFS Marketing connects them all.',at:[185,0,-10],d:980,dir:[.35,1.05,1.05]}
 ];
 
 /* =========================================================
@@ -289,6 +296,13 @@ function quayCrane(p,c){const g=grp(p);const m=mat(c||0x2e86c1);[[-7,-8],[3,-8],
  return {g,tro,sp,cables:[cab1,cab2]};}
 function setSpreader(cr,drop){cr.sp.position.y=-drop;cr.cables.forEach(c=>{c.scale.y=drop;c.position.y=-drop;});}
 
+/* ---------- status boards (PTI, clearance, monitoring, QC, POD) ---------- */
+const OKRX=/✓|PASS|Passed|Released|Issued|Cleared|Connected|None|Accepted|Matches|Complete|Paid|Live|Met|Closed|Signed|Booked|Allocated/;
+function board(title,rows,w,x,y,z,ry,posts){const W=640,H=96+rows.length*60;const tex=canvasTex(W,H,g=>{g.fillStyle='#0f1a16';g.fillRect(0,0,W,H);g.fillStyle='#3dbb74';g.fillRect(0,0,W,10);g.fillStyle='#8fe3b2';g.font='600 30px "JetBrains Mono",monospace';g.fillText(title,26,62);
+ rows.forEach(([a,b],i)=>{const yy=128+i*60;g.fillStyle='rgba(255,255,255,.07)';g.fillRect(18,yy-40,W-36,52);g.fillStyle='#e8f0ec';g.font='500 27px Arial';g.fillText(a,34,yy-5);g.fillStyle=OKRX.test(b)?'#58d68d':'#ffb84d';g.font='600 27px "JetBrains Mono",monospace';g.fillText(b,W-34-g.measureText(b).width,yy-5);});});
+ const gr=grp(scene,x,z,ry);const h=w*H/W;const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:tex}));m.position.set(0,y,.08);gr.add(m);box(gr,w+.3,h+.3,.12,0x2b3236,0,y-h/2-.15,-.02);
+ if(posts){box(gr,.25,y-h/2,.25,0x6b7378,-w/2+.4,0,-.05);box(gr,.25,y-h/2,.25,0x6b7378,w/2-.4,0,-.05);}return gr;}
+
 /* ---------- simple motion along a path ---------- */
 class Path{constructor(pts,closed){this.c=new THREE.CatmullRomCurve3(pts.map(p=>new THREE.Vector3(p[0],0,p[1])),!!closed,'centripetal');this.len=this.c.getLength();}
  put(o,u){u=((u%1)+1)%1;const p=this.c.getPointAt(u),t=this.c.getTangentAt(u);o.position.x=p.x;o.position.z=p.z;o.rotation.y=Math.atan2(-t.z,t.x);}}
@@ -354,10 +368,12 @@ const dockTruck=truck(scene,0x3dbb74);dockTruck.g.position.set(-28,0,-27.5);dock
 const oc=grp(dockTruck.mount,0,0);const ocm=mat(0xf4f6f6,{map:ribTex});box(oc,12,.3,2.45,0,0,0,0,ocm);box(oc,12,2.6,.12,0,0,0,-1.17,ocm);box(oc,.12,2.6,2.45,0,6,0,0,ocm);box(oc,.25,2.3,2.2,0x58636a,6.15,.15,0);
 const dockPallets=[];for(let i=0;i<20;i++){const pl=pallet(oc,-5.2+Math.floor(i/2)*1.2,(i%2?.6:-.6),.3);pl.visible=false;dockPallets.push(pl);}
 const doorL=box(oc,.1,2.6,1.22,0xeef1f3,-6.05,0,-.6),doorR=box(oc,.1,2.6,1.22,0xeef1f3,-6.05,0,.6);
+const recorder=grp(dockPallets[0],0,0);recorder.position.y=1.52;box(recorder,.45,.22,.3,0x2b3236,0,0,0);box(recorder,.3,.02,.18,0,0,.22,0,mat(0x58d68d,{emissive:0x2ecc71,emissiveIntensity:.9}));
+const seal=box(oc,.08,.5,.12,0xf2c14e,-6.25,1.0,0);seal.visible=false;
 const dockFork=forklift(scene,0xf2c14e);const dockLoad=pallet(dockFork.fork,.7,0,.1);
 const dfPath=new Path([[-30,-48],[-30,-42],[-28,-37.5],[-28,-35]]);
 loop(80,u=>{const n=Math.floor(u*22),k=(u*22)%1;dockPallets.forEach((p,i)=>p.visible=i<Math.min(20,n));const done=n>=20;
- const sw=done?Math.min(1,(u*22-20)*1.4):0;doorL.rotation.y=-(1-sw)*1.5;doorR.rotation.y=(1-sw)*1.5;doorL.position.z=-.6-(1-sw)*.55;doorR.position.z=.6+(1-sw)*.55;doorL.position.x=doorR.position.x=-6.05-(1-sw)*.55;
+ const sw=done?Math.min(1,(u*22-20)*1.4):0;seal.visible=sw>=1;doorL.rotation.y=-(1-sw)*1.5;doorR.rotation.y=(1-sw)*1.5;doorL.position.z=-.6-(1-sw)*.55;doorR.position.z=.6+(1-sw)*.55;doorL.position.x=doorR.position.x=-6.05-(1-sw)*.55;
  if(done){dfPath.put(dockFork.g,0);dockFork.g.rotation.y=-Math.PI/2;dockLoad.visible=false;return;}
  const a=k<.5?sm(k/.5):1-sm((k-.5)/.5);dfPath.put(dockFork.g,a*.999);if(k>=.5)dockFork.g.rotation.y+=Math.PI;dockLoad.visible=k<.5;dockFork.fork.position.y=.3+(k>.4&&k<.5?.9:0);});
 
@@ -376,7 +392,7 @@ for(let r=0;r<4;r++)for(let c=0;c<3;c++)for(let t=0;t<1+((r+c)%3);t++)container(
 const washC=container(scene,0xf4f6f6,true,64,0,-36,0);
 box(scene,.4,6,.4,0x6b7378,57.5,0,-38);box(scene,.4,6,.4,0x6b7378,70.5,0,-38);box(scene,13.4,.4,.4,0x6b7378,64,6,-38);box(scene,.4,6,.4,0x6b7378,57.5,0,-34);box(scene,.4,6,.4,0x6b7378,70.5,0,-34);box(scene,13.4,.4,.4,0x6b7378,64,6,-34);
 const SPN=60,sprayI=new THREE.InstancedMesh(new THREE.SphereGeometry(.12,5,4),new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:.75}),SPN);scene.add(sprayI);
-const tech=person(scene,0x2e86c1,71.5,-35,Math.PI);box(scene,.8,.08,.5,0x1d2b26,71.2,1.3,-35.5);
+const tech=person(scene,0x2e86c1,71.5,-35,Math.PI);board('REEFER PRE-TRIP CHECK',[['Wash & interior inspection','Passed'],['Pre-trip inspection (PTI)','PASS'],['Set point','+4.0 °C'],['Released for','GFS booking']],7,56,4.6,-31,.6,true);box(scene,.8,.08,.5,0x1d2b26,71.2,1.3,-35.5);
 const lifter=topLifter(scene,0xd35400);
 const pickC=container(lifter.spr,0xf4f6f6,true,0,-2.6,0,Math.PI/2);
 const depTruck=truck(scene,0xe67e22);depTruck.g.rotation.y=-Math.PI/2;const depC=container(depTruck.mount,0xf4f6f6,true,0,0,0);
@@ -397,7 +413,13 @@ const CITYC=[0xf3e3c3,0xe9c9b0,0xd9e4ea,0xf1f1ea,0xe7d4e6,0xcfe0cf,0xf2d0a4];
  while(x<ix1-4){const w=Math.min(ix1-x,6+rnd()*5);const h=bz?6+rnd()*12:10+rnd()*22;tower(x+w/2,iz0+5,w-1,9,h,CITYC[Math.floor(rnd()*CITYC.length)]);if(iz1-iz0>18)tower(x+w/2,iz1-5,w-1,9,6+rnd()*10,CITYC[Math.floor(rnd()*CITYC.length)]);x+=w;}
  for(let i=0;i<4;i++)tree(scene,ix0+rnd()*(ix1-ix0),(iz0+iz1)/2+(rnd()-.5)*4,.8);}));
 // GFS HQ on the avenue, with a small park
-{const hq=tower(-4,27,18,14,34,0xdfe7e3);sign(hq,'GFS','Headquarters',10,0,30,7.1,0,'#0f1a16');box(scene,40,.08,26,0x9cc97f,-4,0,27).castShadow=false;for(let i=0;i<8;i++)tree(scene,-20+i*4.5,38,.9);}
+{box(scene,40,.08,26,0x9cc97f,-4,0,27).castShadow=false;
+ building('gfs',{x:-4,z:27,w:30,d:16,h:8,sign:'GFS Marketing',sub:'Operations',doorsS:[[-10,4]],units:3});
+ const scr=mat(0x1d2b26,{emissive:0x3dbb74,emissiveIntensity:.45});
+ for(let r=0;r<2;r++)for(let c=0;c<4;c++){const x=-16+c*5.2,z=27+r*4.2;box(scene,3.2,.85,1.3,0xe9e3d6,x,0,z);box(scene,1.1,.75,.08,0,x-.7,.95,z-.45,scr);box(scene,1.1,.75,.08,0,x+.7,.95,z-.45,scr);person(scene,[0x3dbb74,0x2e86c1,0xe6c34a,0x34495e][(r+c)%4],x,z+1.3,0);}
+ box(scene,4.5,.8,2.6,0xb99a6c,7.5,0,28);[[5,26.4],[10,26.4],[5,29.6],[10,29.6]].forEach(([x,z],i)=>person(scene,[0x3dbb74,0x34495e,0x2e86c1,0xe67e22][i],x,z,0));
+ board('GFS SHIPMENT BOARD',[['Vessel space','Booked'],['Empty reefer','Released'],['Transporter','Allocated'],['VGM & export documents','In progress'],['Container tracking','Live']],11,-6,3.6,19.6,0);
+ [[-21,20],[-21,34],[13,20],[13,34]].forEach(([x,z])=>tree(scene,x,z,.9));}
 // city traffic (trucks on the outer loop, cars on the inner one)
 const cityLoop=new Path([[-28,-15],[20,-15],[20,10],[80,10],[80,45],[-28,45]],true);
 const carLoop=new Path([[-60,10],[20,10],[20,80],[-60,80]],true);
@@ -413,8 +435,13 @@ const wbHouse=grp(scene,112,1);box(wbHouse,6,3.6,4,0xf4f2ec,0,0,0);box(wbHouse,6
 const wbCan=document.createElement('canvas');wbCan.width=384;wbCan.height=112;const wbTex=new THREE.CanvasTexture(wbCan);
 const wbBoard=new THREE.Mesh(new THREE.PlaneGeometry(6,2.25),new THREE.MeshBasicMaterial({map:wbTex}));wbBoard.position.set(118,6.2,4.4);scene.add(wbBoard);box(scene,.3,5,.3,0x6b7378,115.5,0,4.2);box(scene,.3,5,.3,0x6b7378,120.5,0,4.2);
 let wbShown=-1;function wbDraw(kg){if(kg===wbShown)return;wbShown=kg;const g=wbCan.getContext('2d');g.fillStyle='#0f1a16';g.fillRect(0,0,384,112);g.fillStyle='#8fe3b2';g.font='600 22px "JetBrains Mono",monospace';g.fillText('VGM · WEIGHBRIDGE 2',18,32);g.fillStyle='#ffb84d';g.font='600 52px "JetBrains Mono",monospace';g.fillText(kg?kg.toLocaleString('en').replace(/,/g,' ')+' kg':'-- --- kg',18,92);wbTex.needsUpdate=true;}
+building('export',{x:114,z:-28,w:20,d:12,h:6,sign:'Export clearance',sub:'SARS · PPECB · Phyto',accent:0xc0392b,doorsS:[[5,5]],units:2});
+board('EXPORT CLEARANCE',[['SARS export declaration','Released'],['PPECB export inspection','Passed'],['Phytosanitary certificate','Issued'],['Market protocol','Met']],8,111,3.4,-33.1,0);
+box(scene,2.6,.85,1.2,0xe9e3d6,118,0,-30);person(scene,0x2c3e50,118,-28.6,0);pallet(scene,117,-25);pallet(scene,118.4,-25);
+{const ct=grp(scene,119.5,-23);box(ct,.9,.45,.6,0xe0b87a,0,.85,0);for(let i=0;i<6;i++)sph(ct,.13,0xf2992e,-.25+(i%3)*.25,1.35,-.12+Math.floor(i/3)*.24);box(ct,1.6,.85,1,0xe9e3d6,0,0,0);}
+person(scene,0xf4f6f6,121,-23,0);
 const gate=grp(scene,128,10);[[-5],[5]].forEach(([z])=>box(gate,3,3.2,2.2,0xf4f2ec,0,0,z*1.35));box(gate,3.6,.6,18,0x0f1a16,0,7,0);[[-8.6],[8.6]].forEach(([z])=>box(gate,.6,7,.6,0x0f1a16,0,0,z));sign(gate,'PORT','Gate in',8,1.85,7.3,0,Math.PI/2,'#0f1a16');
-const barrier=new THREE.Mesh(BOX,mat(0xe74c3c));barrier.scale.set(.25,.25,7);barrier.position.set(126.6,1.1,6.6);scene.add(barrier);
+const barrier=new THREE.Mesh(BOX,mat(0xe74c3c));barrier.scale.set(.25,.25,7);barrier.position.set(126.6,1.1,11.8);scene.add(barrier);
 const wbTruck=truck(scene,0x3dbb74,{cont:0xf4f6f6});
 loop(14,u=>{let x;if(u<.3)x=86+ease(u/.3)*26;else if(u<.6)x=112;else x=112+ease(seg(u,.6,1))*26;wbTruck.g.position.set(x-4,0,10+LANE);wbTruck.g.visible=u<.97;
  wbDraw(u>=.3&&u<.62?Math.round(Math.min(1,(u-.3)/.12)*29480/10)*10:0);barrier.rotation.x=u>.66&&u<.9?-1.3:0;});
@@ -432,6 +459,9 @@ loop(18,u=>{const tx=u<.25?132+ease(u/.25)*11:u<.7?143:143+ease(seg(u,.7,1))*28;
  strad.spr.position.y=drop>11?11.4:drop;const has=u>=.38&&u<.66;stC.visible=has;stTC.visible=u<.38;
  placed.visible=u>=.66;});
 const placed=container(scene,0xf4f6f6,true,143,0,-12,0);
+const plugCable=box(scene,.14,.14,2.2,0x1d2124,149.4,1.3,-13.1);const plugLight=new THREE.Mesh(BOX,new THREE.MeshStandardMaterial({color:0x58d68d,emissive:0x2ecc71,emissiveIntensity:1}));plugLight.scale.set(.5,.4,.5);plugLight.position.set(149.5,3,-14);scene.add(plugLight);
+board('REEFER MONITORING',[['Power','Connected'],['Set point','+4.0 °C'],['Supply air','+4.1 °C'],['Alarms','None']],8,134.5,4.8,-8,-.75,true);
+anims.push(()=>{plugCable.visible=placed.visible;plugLight.material.emissiveIntensity=placed.visible?1:0;plugLight.material.color.setHex(placed.visible?0x58d68d:0x7f8c8d);});
 
 /* ---- 11 quay: vessel alongside, quay cranes ---- */
 const vesselA=ship(scene,124,26,0x22313f);vesselA.position.set(188,0,0);vesselA.rotation.y=-Math.PI/2;
@@ -475,14 +505,17 @@ loop(20,u=>{const reach=(Q-2)-dW.x;const tx=u<.1?-4:u<.35?-4+sm(seg(u,.1,.35))*(
 /* ---- 14 customs: scanner arch + inspection shed ---- */
 road([[Q+40,10],[Q+180,10]],9);road([[Q+112,10],[Q+112,-12]],7);road([[Q+152,10],[Q+152,24]],7);
 const scan=grp(scene,Q+62,10);[[-6],[6]].forEach(([z])=>box(scan,1.4,7,1.4,0xc0392b,0,0,z));box(scan,2,1.6,13.4,0xc0392b,0,7,0);sign(scan,'CUSTOMS','X-ray scanner',8,1.05,7.8,0,Math.PI/2,'#0f1a16');
-const scanBar=box(scene,.25,6,.25,0x58d68d,Q+62,0,10);scanBar.material=mat(0x58d68d,{emissive:0x2ecc71,emissiveIntensity:1});scanBar.scale.set(.25,6,11.5);
+const scanBar=box(scene,.25,6,.25,0x58d68d,Q+62,0,10);scanBar.material=new THREE.MeshStandardMaterial({color:0x58d68d,emissive:0x2ecc71,emissiveIntensity:.6,transparent:true,opacity:.35});scanBar.scale.set(.25,6,11.5);
 building('customs',{x:Q+64,z:36,w:24,d:14,h:7,sign:'Customs',sub:'Inspection',accent:0xc0392b,doorsS:[[6,6]],units:2});
 container(scene,0xf4f6f6,true,Q+60,0,36,0);
-const insp=[person(scene,0x2c3e50,Q+67.5,34.5,0),person(scene,0x2c3e50,Q+66.5,38,Math.PI)];
+const insp=[person(scene,0x2c3e50,Q+67.5,34.5,0),person(scene,0xf4f6f6,Q+66.5,38,Math.PI)];
+board('IMPORT CLEARANCE',[['Import declaration','Cleared'],['Phytosanitary inspection','Passed'],['Duties & port charges','Paid'],['Release order','Issued']],9,Q+71,3.8,29.6,0);
 for(let i=0;i<4;i++)pallet(scene,Q+69+i*1.4,40);
+const rel=grp(scene,Q+92,10);[[-8.6],[8.6]].forEach(([z])=>box(rel,.6,7,.6,0x0f1a16,0,0,z));box(rel,3,.6,18,0x0f1a16,0,7,0);sign(rel,'RELEASED','Delivery to client',8,1.55,7.3,0,Math.PI/2,'#0f1a16');box(rel,2.6,3,2.2,0xf4f2ec,0,0,-6.4);
+const relBar=new THREE.Mesh(BOX,mat(0xe74c3c));relBar.scale.set(.25,.25,7);relBar.position.set(Q+90.6,1.1,11.8);scene.add(relBar);
 const cTruck=truck(scene,0x8e44ad,{cont:0xf4f6f6});
-loop(16,(u,t)=>{const x=u<.3?Q+30+ease(u/.3)*24:u<.7?Q+54+seg(u,.3,.7)*16:Q+70+ease(seg(u,.7,1))*30;cTruck.g.position.set(x,0,10+LANE);cTruck.g.visible=u<.97;
- scanBar.position.x=Q+62;scanBar.visible=u>.3&&u<.7&&Math.sin(t*14)>-.6;insp[0].rotation.y=Math.sin(t)*.8;});
+loop(24,(u,t)=>{const x=u<.2?Q+30+ease(u/.2)*24:u<.45?Q+54+seg(u,.2,.45)*16:u<.6?Q+70+ease(seg(u,.45,.6))*14:u<.7?Q+84:Q+84+ease(seg(u,.7,1))*26;cTruck.g.position.set(x-4,0,10+LANE);cTruck.g.visible=u<.97;relBar.rotation.x=u>.66&&u<.82?-1.3:0;
+ scanBar.position.x=Q+62;scanBar.visible=u>.2&&u<.45&&Math.sin(t*14)>-.6;insp[0].rotation.y=Math.sin(t)*.8;});
 
 /* ---- 15 client warehouse cold room ---- */
 building('wh',{x:Q+112,z:-30,w:38,d:22,h:9,sign:'Client warehouse',sub:'Cold room +2 °C',accent:0xd68910,doorsS:[[0,5]],doorsE:[[0,5]],units:3});
@@ -491,6 +524,9 @@ box(scene,8,1.3,3,0x8d8a82,Q+112,0,-17.2);
 const whTruck=truck(scene,0x8e44ad);whTruck.g.position.set(Q+112,0,-7.5);whTruck.g.rotation.y=-Math.PI/2;
 const wc=grp(whTruck.mount,0,0);box(wc,12,.3,2.45,0,0,0,0,ocm);box(wc,12,2.6,.12,0,0,0,-1.17,ocm);box(wc,.12,2.6,2.45,0,6,0,0,ocm);
 const whIn=[];for(let i=0;i<20;i++)whIn.push(pallet(wc,-5.2+Math.floor(i/2)*1.2,(i%2?.6:-.6),.3));
+{const qc=grp(scene,Q+104,-15.5);box(qc,2.2,.85,1.1,0xe9e3d6,0,0,0);box(qc,.9,.45,.6,0xe0b87a,-.4,.85,0);for(let i=0;i<6;i++)sph(qc,.13,0xf2992e,-.65+(i%3)*.25,1.35,-.12+Math.floor(i/3)*.24);cyl(qc,.03,.6,0x8a9498,.5,.85,0);}
+person(scene,0xf4f6f6,Q+104,-13.8,0);person(scene,0x2f5f9e,Q+106.2,-13.6,0);
+board('ARRIVAL QC',[['Seal number','Matches'],['Pulp temperature','+4.2 °C'],['Fruit quality','Accepted'],['Pallet count','Complete']],6.5,Q+99,4,-13.2,.35,true);
 const whFork=forklift(scene,0x3dbb74);const whLoad=pallet(whFork.fork,.7,0,.1);
 loop(70,u=>{const n=Math.floor(u*22),k=(u*22)%1;whIn.forEach((p,i)=>p.visible=i>=Math.min(20,n));const shown=Math.min(20,n)+16;whRack.forEach((p,i)=>p.visible=i<shown);
  if(n>=20){whFork.g.position.set(Q+108,0,-30);whLoad.visible=false;return;}
@@ -499,6 +535,11 @@ loop(70,u=>{const n=Math.floor(u*22),k=(u*22)%1;whIn.forEach((p,i)=>p.visible=i>
 // destination town
 [[Q+60,60],[Q+80,64],[Q+100,58],[Q+125,62],[Q+170,62],[Q+180,-40],[Q+170,-60]].forEach(([x,z],i)=>tower(x,z,12,10,8+((i*7)%14),CITYC[i%CITYC.length]));
 for(let i=0;i<26;i++)tree(scene,Q+40+rnd()*140,70+rnd()*18,.9);
+
+/* ---- proof of delivery: client receiving office ---- */
+building('pod',{x:Q+142,z:-30,w:14,d:10,h:6,sign:'Client office',sub:'Receiving',accent:0xd68910,doorsS:[[-3,3]],units:2});
+box(scene,3,.85,1.3,0xe9e3d6,Q+143,0,-31);box(scene,1.1,.75,.08,0,Q+143,.95,-31.5,mat(0x1d2b26,{emissive:0x3dbb74,emissiveIntensity:.45}));person(scene,0xd68910,Q+143,-29.6,0);person(scene,0x8e44ad,Q+146,-29.4,Math.PI/2);
+board('PROOF OF DELIVERY',[['Delivered','Complete'],['Received at','+4.2 °C'],['Signed by','Client receiving'],['Shipment file','Closed by GFS']],8,Q+143,3.6,-34.1,0);
 
 /* ---- 16 empty return depot ---- */
 pave(Q+138,Q+184,24,58,0xd3cec2);
