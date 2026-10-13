@@ -28,7 +28,7 @@ body{margin:0;background:var(--sky);color:var(--ink);font:16px/1.55 var(--f-body
 #world canvas{display:block;width:100%;height:100%;pointer-events:none}
 #pins{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 .pin{position:absolute;left:0;top:0;display:flex;align-items:center;gap:6px;padding:4px 9px 4px 4px;border-radius:999px;background:rgba(255,255,255,.92);box-shadow:0 4px 14px rgba(15,26,22,.18);font:600 12px var(--f-body);white-space:nowrap;transform:translate(-50%,-130%);transition:opacity .25s;pointer-events:auto;cursor:pointer}
-.pin b{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--green);color:#fff;font:600 10px var(--f-data)}
+.pin b{width:10px;height:10px;border-radius:50%;display:grid;place-items:center;background:var(--green);color:#fff;font:600 10px var(--f-data)}
 .pin.on{background:var(--ink);color:#fff}
 
 /* header */
@@ -97,7 +97,7 @@ footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin
   .rail{right:8px;padding:8px 5px;gap:5px}.rail button{width:9px;height:9px}
   .card,.step.r .card{left:16px;right:auto;top:56vh;width:calc(100% - 48px);padding:18px 18px 16px}
   .card h2{font-size:23px}.card p{font-size:15px}
-  .hero .card{top:46vh;width:calc(100% - 32px)}
+  .hero .card{top:46vh;width:calc(100% - 48px)}
   .final .card{top:50vh}
 }
 @media (prefers-reduced-motion:reduce){.cue i::after{animation:none}}
@@ -127,9 +127,9 @@ footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin
   <h2>One partner for the whole cold chain.</h2>
   <p class="lead">Many companies each do one step between the orchard and the customer's cold room. GFS plans, books and tracks every one of them, so the fruit arrives the way it left the packhouse.</p>
   <div class="cols">
-    <div class="col"><div class="n">01 · PLAN</div><h3>Harvest to booking</h3><p>Volumes per week with the grower, vessel space with the shipping line, empty reefers ordered in time.</p></div>
-    <div class="col"><div class="n">02 · MOVE</div><h3>Farm to vessel</h3><p>Transporters dispatched, containers loaded and sealed, VGM submitted, gate-in before the stack closes.</p></div>
-    <div class="col"><div class="n">03 · TRACK</div><h3>Sea to cold room</h3><p>Every reefer followed at sea, documents ready for customs, delivery to the client and the empty returned.</p></div>
+    <div class="col"><div class="n">PLAN</div><h3>Harvest to booking</h3><p>Volumes per week with the grower, vessel space with the shipping line, empty reefers ordered in time.</p></div>
+    <div class="col"><div class="n">MOVE</div><h3>Farm to vessel</h3><p>Transporters dispatched, containers loaded and sealed, VGM submitted, gate-in before the stack closes.</p></div>
+    <div class="col"><div class="n">TRACK</div><h3>Sea to cold room</h3><p>Every reefer followed at sea, documents ready for customs, delivery to the client and the empty returned.</p></div>
   </div>
   <div class="cta"><div><h3>Follow the chain again</h3><p>Every step on this page runs live on the map.</p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-go="1">Start at the orchard</button><button class="btn ghost" data-go="0">Back to the top</button></div></div>
   <footer><span>nusome GFS · Fresh fruit logistics</span><span>All vehicles, buildings and timings on the map are illustrative.</span></footer>
@@ -163,9 +163,9 @@ const STEPS=[
  {phase:'On the road',title:'Through the city',text:'The loaded reefer leaves the farm road and drives through the city towards the port, sharing the streets with local traffic.',at:'truck',d:120,dir:[.45,1.7,.9],pin:'City'},
  {phase:'Port · Weighbridge',title:'The truck is weighed',text:'Before the gate the truck stops on the weighbridge. Every export container needs a verified gross mass (VGM) before it may be loaded on a ship.',gfs:'GFS submits the VGM and the export documents.',facts:['VGM','Weighbridge ticket'],at:[112,0,10],d:40,pin:'Weighbridge'},
  {phase:'Port · Reefer stack',title:'Off-loaded into the stack',text:'Through the gate, a straddle carrier lifts the container off the truck and sets it down in the reefer stack, where it is plugged into power.',facts:['Gate-in','Straddle carrier','Reefer plug'],at:[147,0,-8],d:66,dir:[-.45,1.25,1],pin:'Reefer stack'},
- {phase:'Port · Quay',title:'Loaded on the vessel',text:'When the ship is alongside, the quay crane lifts each reefer from the terminal tractor into its slot on board, where it is plugged in again.',facts:['Quay crane','On-board power'],at:[176,0,16],d:125,dir:[-.75,1.05,.95],pin:'Quay'},
+ {phase:'Port · Quay',title:'Loaded on the vessel',text:'When the ship is alongside, the quay crane lifts each reefer from the terminal tractor into its slot on board, where it is plugged in again.',facts:['Quay crane','On-board power'],at:[176,16,14],d:125,dir:[-.8,.8,.95],pin:'Quay'},
  {phase:'At sea',title:'Crossing the sea',text:'The vessel sails for the destination port. That takes days to weeks, with the container held at its set temperature the whole way.',gfs:'GFS tracks every container at sea and keeps the customer informed.',at:'ship',d:230,dir:[.25,1.1,1],pin:'Sea'},
- {phase:'Destination · Quay',title:'The container is discharged',text:'At the destination port the quay crane lifts the container off the vessel and onto a truck, which takes it into the terminal.',facts:['Discharge','Terminal truck'],at:[Q-4,0,6],d:105,dir:[.8,1.05,.95],pin:'Discharge'},
+ {phase:'Destination · Quay',title:'The container is discharged',text:'At the destination port the quay crane lifts the container off the vessel and onto a truck, which takes it into the terminal.',facts:['Discharge','Terminal truck'],at:[Q-4,16,6],d:115,dir:[.85,.8,.95],pin:'Discharge'},
  {phase:'Destination · Customs',title:'Customs clearance',text:'The container drives slowly through the scanner. Some containers are opened and checked in the inspection shed before release.',gfs:'GFS sends the documents the customer needs to clear customs.',facts:['Scanner','Inspection'],at:[Q+64,0,24],d:56,open:['customs'],pin:'Customs'},
  {phase:'Destination · Warehouse',title:'Pallets into the cold room',text:"The client's truck backs up to the warehouse dock. A forklift unloads the pallets and moves them straight into the cold room racks.",facts:['Forklift','Cold room','Racks'],at:[Q+112,0,-28],d:58,open:['wh'],pin:'Client cold room'},
  {phase:'Destination · Empty depot',title:'The empty container is picked up',text:"The empty is collected from the warehouse and returned to the shipping line's depot, ready to be washed, tested and loaded again.",facts:['Empty return','Next load'],at:[Q+154,0,30],d:76,pin:'Empty return'},
@@ -440,7 +440,7 @@ const craneA=quayCrane(scene,0x2e86c1);craneA.g.position.set(170,0,14);
 const craneB=quayCrane(scene,0x2e86c1);craneB.g.position.set(170,0,-26);
 const qC=container(craneA.sp,0xf4f6f6,true,0,-2.6,0,Math.PI/2);
 const tractorQ=truck(scene,0xf2c14e);tractorQ.g.rotation.y=-Math.PI/2;const tqC=container(tractorQ.mount,0xf4f6f6,true,0,0,0);
-const slot=loadSlots[0];const slotW=new THREE.Vector3(slot.x,0,slot.z);vesselA.userData.deck.localToWorld(slotW);
+vesselA.updateMatrixWorld(true);const slot=loadSlots[0];const slotW=new THREE.Vector3(slot.x,0,slot.z);vesselA.userData.deck.localToWorld(slotW);
 const shipPlaced=container(vesselA.userData.deck,0xf4f6f6,true,slot.x,slot.y,slot.z);
 loop(20,u=>{tractorQ.g.position.set(166,0,u<.2?-60+ease(u/.2)*74:u<.4?14:14+ease(seg(u,.4,.7))*60);tractorQ.g.visible=u<.7||u>.98;
  const reachX=slotW.x-170;const tx=u<.25?-4:u<.55?-4+sm(seg(u,.3,.55))*(reachX+4):u<.8?reachX:reachX-sm(seg(u,.8,1))*(reachX+4);craneA.tro.position.x=tx;
@@ -463,7 +463,7 @@ pave(Q,Q+58,-75,80,0xd2cdc1);
 const vesselB=ship(scene,124,26,0x154360);vesselB.position.set(Q-17,0,4);vesselB.rotation.y=-Math.PI/2;
 const disSlots=fillDeck(vesselB,124,26,(b,r,t)=>b===2&&r===4&&t===2);
 const craneC=quayCrane(scene,0x16a085);craneC.g.position.set(Q-2,0,4);craneC.g.rotation.y=Math.PI;
-const dSlot=disSlots[0];const dW=new THREE.Vector3(dSlot.x,0,dSlot.z);vesselB.userData.deck.localToWorld(dW);
+vesselB.updateMatrixWorld(true);const dSlot=disSlots[0];const dW=new THREE.Vector3(dSlot.x,0,dSlot.z);vesselB.userData.deck.localToWorld(dW);
 const dC=container(craneC.sp,0xf4f6f6,true,0,-2.6,0,Math.PI/2);const dOnShip=container(vesselB.userData.deck,0xf4f6f6,true,dSlot.x,dSlot.y,dSlot.z);
 const dTruck=truck(scene,0x8e44ad);dTruck.g.rotation.y=Math.PI/2;const dTC=container(dTruck.mount,0xf4f6f6,true,0,0,0);
 for(let r=0;r<6;r++)for(let c=0;c<2;c++)for(let t=0;t<1+((r*c+r)%3);t++)container(scene,CONT_C[(r*2+c+t)%CONT_C.length],t===0,Q+22+c*13,t*2.62,-20-r*4,0);
@@ -515,7 +515,7 @@ const dropped=container(scene,0xf4f6f6,true,Q+158.2,0,32,Math.PI/2);
    PINS on the map (shown on the wide shots)
    ========================================================= */
 const pinsEl=$('#pins');const PINS=[];
-STEPS.forEach((s,i)=>{if(!s.pin||typeof s.at==='string'&&s.at!=='truck')return;const el=document.createElement('div');el.className='pin';el.innerHTML=`<b>${String(i).padStart(2,'0')}</b>${s.pin}`;el.onclick=()=>go(i);pinsEl.appendChild(el);PINS.push({el,i});});
+STEPS.forEach((s,i)=>{if(!s.pin||typeof s.at==='string'&&s.at!=='truck')return;const el=document.createElement('div');el.className='pin';el.innerHTML=`<b></b>${s.pin}`;el.onclick=()=>go(i);pinsEl.appendChild(el);PINS.push({el,i});});
 const tmpV=new THREE.Vector3();
 
 /* =========================================================
@@ -525,8 +525,8 @@ const story=$('#story'),rail=$('#rail');let n=0;
 story.innerHTML=STEPS.map((s,i)=>{const num=s.hero||s.end?'':String(++n).padStart(2,'0');s.num=num;
  const facts=s.facts?`<div class="facts">${s.facts.map(f=>`<em>${f}</em>`).join('')}</div>`:'';
  if(s.hero)return `<section class="step hero" id="s${i}"><article class="card"><div class="phase">${s.phase}</div><h1>${s.title}</h1><p>${s.text}</p><div class="cue"><i></i>Scroll</div></article></section>`;
- return `<section class="step${s.end?' final':''}${!s.end&&i%2===0?' r':''}" id="s${i}"><article class="card"><div class="phase">${num?`<b>${num}</b>`:''}${s.phase}</div><h2>${s.title}</h2><p>${s.text}</p>${s.gfs?`<p class="gfs"><b>GFS:</b> ${s.gfs}</p>`:''}${facts}</article></section>`;}).join('');
-rail.innerHTML=STEPS.map((s,i)=>`<button data-go="${i}" aria-label="${s.title}"><span>${s.num?s.num+' · ':''}${s.title}</span></button>`).join('');
+ return `<section class="step${s.end?' final':''}${!s.end&&i%2===0?' r':''}" id="s${i}"><article class="card"><div class="phase">${s.phase}</div><h2>${s.title}</h2><p>${s.text}</p>${s.gfs?`<p class="gfs"><b>GFS:</b> ${s.gfs}</p>`:''}${facts}</article></section>`;}).join('');
+rail.innerHTML=STEPS.map((s,i)=>`<button data-go="${i}" aria-label="${s.title}"><span>${s.title}</span></button>`).join('');
 const secTop=i=>document.getElementById('s'+i).offsetTop;
 function go(i){scrollTo({top:secTop(i),behavior:reduceMotion?'auto':'smooth'});}
 document.addEventListener('click',e=>{const a=e.target.closest('[data-go]');if(a){e.preventDefault();go(+a.dataset.go);}const ab=e.target.closest('[data-about]');if(ab){e.preventDefault();$('#about').scrollIntoView({behavior:reduceMotion?'auto':'smooth'});}});
@@ -540,7 +540,7 @@ addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',()=
 addEventListener('keydown',e=>{if(/input|textarea|select/i.test(e.target.tagName))return;if(e.key==='ArrowDown'||e.key==='PageDown'){e.preventDefault();go(Math.min(STEPS.length-1,st.active+1));}if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();go(Math.max(0,st.active-1));}});
 
 const DEF_DIR=new THREE.Vector3(.8,1.15,1).normalize(),IN_DIR=new THREE.Vector3(.55,1.7,1).normalize();
-function shotOf(i){const s=STEPS[i];let t;if(s.at==='truck')t=cityTrucks[0].g.position.clone();else if(s.at==='ship')t=sailing.position.clone();else t=new THREE.Vector3(...s.at);t.y=0;
+function shotOf(i){const s=STEPS[i];let t;if(s.at==='truck')t=cityTrucks[0].g.position.clone();else if(s.at==='ship')t=sailing.position.clone();else t=new THREE.Vector3(...s.at);if(typeof s.at==='string')t.y=0;
  const inside=!!s.open&&!s.dir;return {t,dir:s.dir?new THREE.Vector3(...s.dir).normalize():inside?IN_DIR.clone():DEF_DIR.clone(),d:inside?s.d*1.2:s.d,open:s.open||[]};}
 const side=i=>STEPS[i].hero||STEPS[i].end?0:i%2===0?-1:1; // card right → subject left of centre, and vice versa
 let last=performance.now();
@@ -550,7 +550,7 @@ function camStep(rt){
  const A=shotOf(i),B=shotOf(i+1),k=ease(clamp((f-.28)/.72,0,1));
  const t=A.t.clone().lerp(B.t,k),dir=A.dir.clone().lerp(B.dir,k).normalize();
  const hop=Math.sin(Math.PI*k)*Math.min(A.t.distanceTo(B.t)*.6,320); // lift out to the big picture between distant steps
- const narrow=innerWidth<=860;let dist=(A.d+(B.d-A.d)*k+hop)*(camera.aspect<1?1+(1/camera.aspect-1)*.55:1);
+ const narrow=innerWidth<=860;let dist=(A.d+(B.d-A.d)*k+hop)*(camera.aspect<1?1+(1/camera.aspect-1)*.55:1)*(narrow?1.25:1);
  const fw=dir.clone().negate(),right=new THREE.Vector3().crossVectors(fw,new THREE.Vector3(0,1,0)).normalize(),up=new THREE.Vector3().crossVectors(right,fw);
  const half=dist*Math.tan(camera.fov*Math.PI/360);
  if(narrow)t.addScaledVector(up,-half*.45);else{const sd=side(i)*(1-k)+side(i+1)*k;t.addScaledVector(right,-sd*half*camera.aspect*.32);}
